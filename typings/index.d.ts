@@ -1,5 +1,15 @@
 import { IgApiClient } from "instagram-private-api";
 import { MediaShareLocation } from "../src/structures/Message";
+import DataManager from '../../views/init'
+import { Shazam } from 'node-shazam'
+import { MGame} from '../../monopoly/monopoly'
+import GameManager from '../../commands/unogame/Shard/GameManager'
+import { Ruleset } from '../../types/ruleset'
+import { SnipeItem } from '../../types/client'
+import { BaseUserType } from '../../types/baseuser'
+import baseuser from '../../models/baseuser'
+import { UnoGame } from '../../types/unotypes'
+import Game from '../../commands/unogame/Structures/Game'
 
 declare module "node-ig-framework" {
   import {
@@ -14,7 +24,63 @@ declare module "node-ig-framework" {
 
   export class Client extends EventEmitter {
     constructor(options?: ClientOptions);
+    data : DataManager
 
+    handlers : Map<string, any>
+
+    events : Map<string,any>
+
+    aliases : Map<string,any>
+
+    commands : Map<string,any>
+
+    muted : string[];
+
+    prefix : string;
+
+    mgames : Map<string,MGame>
+
+    sydneyqueue : Array<[Message, string, Message]>
+
+    prefix2 : string;
+
+    gartic : boolean;
+
+    gameManager : GameManager
+    games: { [key: string]: Game; };
+
+    commands2: any;
+
+    commandMap: {[key: string]: string};
+
+    getCommand(name: string): Client["commands2"] | null
+
+    loadCommands(): Promise<void>
+
+    getrules(): Ruleset
+
+    getruleKeys():string[]
+
+    getruleset(): Ruleset
+
+    snipe: SnipeItem[];
+
+    downloading:boolean;
+
+    character:string;
+
+    ingame:boolean;
+
+    shazam: Shazam
+
+    ind:boolean;
+
+    cachedUsers: Map<string,BaseUserType>
+
+    battling:boolean
+
+    curr(userID: string): baseuser
+    checkpokemon(msg: Message, member: Contact, pokemons:any , selected: any): Promise<void>
     public user: User | null;
     public ig: IgApiClient | null;
     public ready: boolean;
